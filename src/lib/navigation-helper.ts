@@ -13,7 +13,7 @@ export let hasInternalNavigationStack = writable(
 
 let _hasInternalNavigationStack = false;
 hasInternalNavigationStack.subscribe((value) => {
-  console.log("_hasInternalNavigationStack", _hasInternalNavigationStack);
+  console.debug("_hasInternalNavigationStack", _hasInternalNavigationStack);
   _hasInternalNavigationStack = value;
   setTabStorageItem(INTERNAL_NAV_STACK_KEY, value);
 });

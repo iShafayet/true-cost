@@ -7,6 +7,7 @@
     selectedCategoryList,
     userIncomeDetails,
   } from "../../store/common.js";
+  import { CommonConstant } from "../../constant/common-constants.js";
 
   let localSelectedCategoryList: string[] = [];
   let localUserIncomeDetails: UserIncomeDetails = {
@@ -31,30 +32,119 @@
   // Computed and flags
   let shouldShowResults = false;
   let refinedInputAmount = 0;
+  let fullComparedList: Compared[] = [];
+  let comparableHead = 0;
   let comparedList: Compared[] = [];
 
-  function amountEntered() {
+  function amountEntered(e) {
     shouldShowResults = false;
   }
 
-  function goPressed() {
+  function computeHourlyIncomeBasedCompared(
+    refinedInputAmount: number
+  ): Compared[] {
+    let result = "";
+    if (localUserIncomeDetails.hourlyIncome <= 0) {
+      return [];
+    }
+    const hours = Math.floor(
+      refinedInputAmount / localUserIncomeDetails.hourlyIncome
+    );
+    if (hours < 1) {
+      result = `Less than one hour of your time!`;
+    } else if (hours === 1) {
+      result = `An hour of your time!`;
+    } else {
+      result = `${hours} hours of your time!`;
+    }
+    return [
+      {
+        name: "Computed/hourly",
+        result,
+      },
+    ];
+  }
+
+  function computeMonthlyIncomeBasedCompared(
+    refinedInputAmount: number
+  ): Compared[] {
+    let result = "";
+    if (localUserIncomeDetails.monthlyIncome <= 0) {
+      return [];
+    }
+    const months = refinedInputAmount / localUserIncomeDetails.monthlyIncome;
+
+    if (months < 1) {
+      const percentage = Math.round(months * 100);
+      result = `${percentage}% of your monthly salary!`;
+    } else if (Math.floor(months) === 1) {
+      result = `Around a month's salary!`;
+    } else {
+      result = `Your ${Math.round(months)} month's salary!`;
+    }
+    return [
+      {
+        name: "Computed/monthly",
+        result,
+      },
+    ];
+  }
+
+  function prepareFullComparableList() {
     refinedInputAmount = parseFloat(String(enteredAmount));
 
-    comparedList = comparableList
+    comparableHead = 0;
+    let stockComparedList = comparableList
       .filter(
         (comparable) =>
           localSelectedCategoryList.length === 0 ||
           localSelectedCategoryList.indexOf(comparable.category) > -1
       )
-      .map((comparable) => {
+      .map((comparable, index) => {
         return {
           name: comparable.name,
-          result: comparable.conversionFn(refinedInputAmount),
+          result: index + " " + comparable.conversionFn(refinedInputAmount),
         };
       })
-      .filter((compared) => compared.result.length > 0);
+      .filter((compared) => compared.result.length > 0)
+      .sort(() => 0.5 - Math.random());
 
+    fullComparedList = [
+      ...computeHourlyIncomeBasedCompared(refinedInputAmount),
+      ...computeMonthlyIncomeBasedCompared(refinedInputAmount),
+      ...stockComparedList,
+    ];
+  }
+
+  function showNextFewComparables() {
+    comparedList = fullComparedList.slice(
+      comparableHead,
+      comparableHead + CommonConstant.MAX_COMPARABLE_TO_DISPLAY
+    );
+
+    comparableHead += comparedList.length;
+
+    if (comparableHead >= fullComparedList.length) {
+      comparableHead = 0;
+    }
+  }
+
+  function goPressed() {
+    prepareFullComparableList();
+    showNextFewComparables();
     shouldShowResults = true;
+  }
+
+  function refreshPressed() {
+    showNextFewComparables();
+  }
+
+  function amountKeyUp(e) {
+    if (e && e.which === CommonConstant.ENTER_KEY_CODE) {
+      setTimeout(() => {
+        goPressed();
+      }, 50);
+    }
   }
 </script>
 
@@ -69,6 +159,7 @@
         type="number"
         class="main-input"
         on:input={amountEntered}
+        on:keyup={amountKeyUp}
       />
       <IconButton class="material-icons" on:click={goPressed}>send</IconButton>
       <div class="main-prompt-hint">
@@ -86,6 +177,12 @@
             <li>{compared.result}</li>
           {/each}
         </ul>
+
+        <div class="refresh-button-wrapper">
+          <IconButton class="material-icons" on:click={refreshPressed}
+            >refresh</IconButton
+          >
+        </div>
       </div>
     {/if}
     <!-- comparisons - end -->
@@ -140,5 +237,9 @@
   .comparison-title {
     margin-top: 12px;
     margin-bottom: -4px;
+  }
+
+  .refresh-button-wrapper {
+    text-align: center;
   }
 </style>
