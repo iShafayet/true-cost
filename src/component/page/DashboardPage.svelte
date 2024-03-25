@@ -103,7 +103,7 @@
       .map((comparable, index) => {
         return {
           name: comparable.name,
-          result: index + " " + comparable.conversionFn(refinedInputAmount),
+          result: comparable.conversionFn(refinedInputAmount),
         };
       })
       .filter((compared) => compared.result.length > 0)

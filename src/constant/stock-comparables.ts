@@ -4,6 +4,10 @@ const internationalNumberFormat = new Intl.NumberFormat("en-US", {
   maximumFractionDigits: 0,
 });
 
+const internationalAmountFormat = new Intl.NumberFormat("en-US", {
+  maximumFractionDigits: 2,
+});
+
 function roundAmount(amount: number) {
   return Math.round(amount * 100) / 100;
 }
@@ -14,6 +18,10 @@ function floorCountable(amount: number) {
 
 function prettifyNumber(num: number) {
   return internationalNumberFormat.format(num);
+}
+
+function prettifyAmount(num: number) {
+  return internationalAmountFormat.format(num);
 }
 
 const technologyComparableList: Comparable[] = [
@@ -70,7 +78,39 @@ const generalComparableList: Comparable[] = [
       }
     },
   },
+  {
+    name: "BD/gold-2024",
+    category: ComparableCategory.GENERAL,
+    conversionFn(enteredAmount: number) {
+      const FACTOR = 9780;
+      const amount = roundAmount(enteredAmount / FACTOR);
+
+      if (amount === 1) {
+        return "One gram of 22 Karat gold in 2024.";
+      } else {
+        return `${prettifyAmount(amount)} grams of 22 Karat gold in 2024.`;
+      }
+    },
+  },
+  {
+    name: "BD/rent-dhaka-2024",
+    category: ComparableCategory.GENERAL,
+    conversionFn(enteredAmount: number) {
+      const FACTOR = 38_195;
+      const count = floorCountable(enteredAmount / FACTOR);
+
+      if (count === 0) {
+        return "Not even one month of rent in a 3BHK apartment in Dhaka in 2024.";
+      } else if (count === 1) {
+        return "Around one month of rent in a 3BHK apartment in Dhaka in 2024.";
+      } else {
+        return `${prettifyNumber(count)} months of rent in a 3BHK apartment in Dhaka in 2024.`;
+      }
+    },
+  },
 ];
+
+
 
 const humanitarianComparableList: Comparable[] = [
   {
