@@ -5,16 +5,16 @@
 <div class="dashboard-page">
   <div class="main-wrapper">
     <div class="page-title">TrueCost</div>
-    <div class="subtitle">Visualize the True Cost of your expenses</div>
+    <div class="subtitle">Visualize the true cost of your expenses</div>
 
     <!-- Prologue - Start -->
     <div class="rules">
       <div class="label">Prologue:</div>
-      Human beings are terrible at judging the true magnitude of an amount of money.
-      One of the best way to make sense of any amount of money is to compare it with
-      various known or relatable commodities or set expenditures.<br /> <br />
-      This is why this application tries to calculate how many of various commodities
-      and expenditures a certain amount of money can buy.
+      Human beings are terrible at accurately gauging the true value of money. One
+      useful approach is to relate it to familiar items or regular expenses.
+      <br /> <br />
+      That's why this application strives to determine how much of various commodities
+      or common expenditures a specific amount of money can afford.
     </div>
     <!-- Prologue - End -->
 

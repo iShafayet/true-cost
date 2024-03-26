@@ -79,6 +79,38 @@ const generalComparableList: Comparable[] = [
     },
   },
   {
+    name: "BD/milk-2024",
+    category: ComparableCategory.GENERAL,
+    conversionFn(enteredAmount: number) {
+      const FACTOR = 110;
+      const count = floorCountable(enteredAmount / FACTOR);
+
+      if (count === 0) {
+        return "Not even one litre of milk in Dhaka in 2024.";
+      } else if (count === 1) {
+        return "One litre of milk in Dhaka in 2024.";
+      } else {
+        return `${prettifyNumber(count)} litres of milk in Dhaka in 2024.`;
+      }
+    },
+  },
+  {
+    name: "BD/rice-2024",
+    category: ComparableCategory.GENERAL,
+    conversionFn(enteredAmount: number) {
+      const FACTOR = 77;
+      const count = floorCountable(enteredAmount / FACTOR);
+
+      if (count === 0) {
+        return "Not even one kilogram of rice in 2024.";
+      } else if (count === 1) {
+        return "A kilogram of rice in 2024.";
+      } else {
+        return `${prettifyNumber(count)} kilograms of rice in 2024.`;
+      }
+    },
+  },
+  {
     name: "BD/gold-2024",
     category: ComparableCategory.GENERAL,
     conversionFn(enteredAmount: number) {
@@ -104,13 +136,13 @@ const generalComparableList: Comparable[] = [
       } else if (count === 1) {
         return "Around one month of rent in a 3BHK apartment in Dhaka in 2024.";
       } else {
-        return `${prettifyNumber(count)} months of rent in a 3BHK apartment in Dhaka in 2024.`;
+        return `${prettifyNumber(
+          count
+        )} months of rent in a 3BHK apartment in Dhaka in 2024.`;
       }
     },
   },
 ];
-
-
 
 const humanitarianComparableList: Comparable[] = [
   {
@@ -133,7 +165,60 @@ const humanitarianComparableList: Comparable[] = [
   },
 ];
 
-const whimsicalComparableList: Comparable[] = [];
+const whimsicalComparableList: Comparable[] = [
+  {
+    name: "BD/high-date-2024",
+    category: ComparableCategory.GENERAL,
+    conversionFn(enteredAmount: number) {
+      const FACTOR = 8000;
+      const count = floorCountable(enteredAmount / FACTOR);
+
+      if (count === 0) {
+        return "Not even an upscale date in Dhaka in 2024.";
+      } else if (count === 1) {
+        return "An upscale date in Dhaka in 2024.";
+      } else {
+        return `${prettifyNumber(count)} upscale dates in Dhaka in 2024.`;
+      }
+    },
+  },
+  {
+    name: "BD/decent-meal-two-2024",
+    category: ComparableCategory.GENERAL,
+    conversionFn(enteredAmount: number) {
+      const FACTOR = 1400;
+      const count = floorCountable(enteredAmount / FACTOR);
+
+      if (count === 0) {
+        return "Not even a decent meal at a restaurant for a couple in Dhaka in 2024.";
+      } else if (count === 1) {
+        return "A decent meal at a restaurant for a couple in Dhaka in 2024.";
+      } else {
+        return `${prettifyNumber(
+          count
+        )} meals at mid-range restaurants for a couple in Dhaka in 2024.`;
+      }
+    },
+  },
+  {
+    name: "BD/decent-meal-two-2024",
+    category: ComparableCategory.GENERAL,
+    conversionFn(enteredAmount: number) {
+      const FACTOR = 300;
+      const count = floorCountable(enteredAmount / FACTOR);
+
+      if (count === 0) {
+        return "Not even a balanced meal at a restaurant in Dhaka in 2024.";
+      } else if (count === 1) {
+        return "A balanced meal at a restaurant in Dhaka in 2024.";
+      } else {
+        return `${prettifyNumber(
+          count
+        )} balanced meals at a restaurant in Dhaka in 2024.`;
+      }
+    },
+  },
+];
 
 export const stockComparableList: Comparable[] = [
   ...generalComparableList,

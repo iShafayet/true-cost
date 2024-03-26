@@ -1,6 +1,12 @@
 # true-cost
 
-Find out what exactly an amount of money means to you by comparing it with known quantities.
+**Visualize the true cost of your expenses**
+
+Human beings are terrible at accurately gauging the true value of money. One
+useful approach is to relate it to familiar items or regular expenses.
+
+That's why this application strives to determine how much of various commodities
+or common expenditures a specific amount of money can afford.
 
 ## To run locally (dockerized)
 

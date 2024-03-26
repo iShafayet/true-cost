@@ -8,6 +8,7 @@
     userIncomeDetails,
   } from "../../store/common.js";
   import { CommonConstant } from "../../constant/common-constants.js";
+  import { showAlert } from "../../store/ui.js";
 
   let localSelectedCategoryList: string[] = [];
   let localUserIncomeDetails: UserIncomeDetails = {
@@ -146,13 +147,30 @@
       }, 50);
     }
   }
+
+  async function helpPressed() {
+    const message = `Human beings are terrible at accurately gauging the true value of money. 
+    This app allows you to relate an amount to familiar items or expenses.`;
+    await showAlert("About TrueCost", message);
+  }
 </script>
 
 <div class="dashboard-page">
   <div class="main-wrapper">
     <!-- main input - start -->
     <div class="main-input-wrapper">
-      <div class="main-prompt">Enter an amount</div>
+      <div class="main-prompt">
+        <div>Enter an amount of money</div>
+        <div class="help-icon-wrapper">
+          <IconButton
+            size="button"
+            class="material-icons"
+            on:click={helpPressed}
+          >
+            help_outline
+          </IconButton>
+        </div>
+      </div>
       <Textfield
         bind:value={enteredAmount}
         suffix="BDT"
@@ -163,8 +181,8 @@
       />
       <IconButton class="material-icons" on:click={goPressed}>send</IconButton>
       <div class="main-prompt-hint">
-        This can be something you are buying or selling or otherwise simply just
-        want to know the value of.
+        This can be something you are buying, selling, or simply want to know
+        the value of.
       </div>
     </div>
     <!-- main input - end -->
@@ -179,9 +197,9 @@
         </ul>
 
         <div class="refresh-button-wrapper">
-          <IconButton class="material-icons" on:click={refreshPressed}
-            >refresh</IconButton
-          >
+          <IconButton class="material-icons" on:click={refreshPressed}>
+            refresh
+          </IconButton>
         </div>
       </div>
     {/if}
@@ -218,6 +236,7 @@
   .main-prompt {
     font-size: 24px;
     margin-bottom: 12px;
+    display: flex;
   }
 
   .main-prompt-hint {
@@ -241,5 +260,10 @@
 
   .refresh-button-wrapper {
     text-align: center;
+  }
+
+  .help-icon-wrapper {
+    display: inline-block;
+    margin-top: -12px;
   }
 </style>
